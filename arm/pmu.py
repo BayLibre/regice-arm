@@ -28,7 +28,7 @@ from time import time
 
 from regicecommon import open_resource
 from regicepmu.pmu import PMU, PMUCounter
-from regicepmu.perf import CPULoad
+from regicepmu.perf import CPULoad, VendorEvent
 from svd.extension import SVDExtension
 
 class ARMCounter(PMUCounter):
@@ -160,6 +160,28 @@ class ARMCPULoad(CPULoad):
         self.time = now
         return (cpu_cycles / (tdiff * self.freq_max)) * 100
 
+class ARMPerfEvent(VendorEvent):
+    def __init__(self, pmu, cpu_id, event_id):
+        name =  pmu.get_events()[event_id][0]
+        super(ARMPerfEvent, self).__init__(pmu, cpu_id, event_id)
+        self.event_id = event_id
+        self.cntr = None
+        self.time = 0
+
+    def _enable(self):
+        self.time = time()
+        self.cntr = self.pmu.enable_event(self.event_id)
+
+    def _disable(self):
+        self.cntr = self.pmu.disable_event(self.cntr)
+
+    def get_value(self):
+        cntr = self.cntr.read_diff()
+        now = time()
+        tdiff = now - self.time
+        self.time = now
+        return cntr / (tdiff)
+
 def device_add_pmu(device, svd_name, address, dim=1, dim_increment=0):
     properties = {
         'PMU%s': {
@@ -174,3 +196,7 @@ def device_add_pmu(device, svd_name, address, dim=1, dim_increment=0):
     svdext.parse()
     svdext.append_to(device.svd)
     device.update_peripherals()
+
+def add_generic_events(pmu, cpu_id):
+    for event_id in pmu.events:
+        ARMPerfEvent(pmu, cpu_id, event_id)
