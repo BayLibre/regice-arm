@@ -52,7 +52,8 @@ class ARMCounter(PMUCounter):
         return self.pmu.peripheral.PMCNTENSET & (1 << self.cnt_id)
 
     def _set_event(self, event_id):
-        self.register.write(event_id)
+        pmevtyper = getattr(self.pmu.peripheral, "PMXEVTYPER{}".format(self.cnt_id))
+        pmevtyper.write(event_id)
         return True
 
 class PMCCNTRCounter(ARMCounter):
