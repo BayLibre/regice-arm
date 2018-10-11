@@ -43,6 +43,7 @@ class ARMCounter(PMUCounter):
 
     def _enable(self):
         self.pmu.peripheral.PMCNTENSET |= (1 << self.cnt_id)
+        return True
 
     def _disable(self):
         self.pmu.peripheral.PMCNTENCLR |= (1 << self.cnt_id)
@@ -52,6 +53,7 @@ class ARMCounter(PMUCounter):
 
     def _set_event(self, event_id):
         self.register.write(event_id)
+        return True
 
 class PMCCNTRCounter(ARMCounter):
     """
