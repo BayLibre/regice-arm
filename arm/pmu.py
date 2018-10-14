@@ -162,8 +162,8 @@ class ARMCPULoad(CPULoad):
 
 class ARMPerfEvent(VendorEvent):
     def __init__(self, pmu, cpu_id, event_id):
-        name =  pmu.get_events()[event_id][0]
-        super(ARMPerfEvent, self).__init__(pmu, cpu_id, event_id)
+        name =  '{}-{}'.format(pmu.get_events()[event_id][0], cpu_id)
+        super(ARMPerfEvent, self).__init__(pmu, name, event_id)
         self.event_id = event_id
         self.cntr = None
         self.time = 0
@@ -181,6 +181,9 @@ class ARMPerfEvent(VendorEvent):
         tdiff = now - self.time
         self.time = now
         return cntr / (tdiff)
+
+    def get_desc(self):
+        return self.pmu.get_events()[self.event_id][1]
 
 def device_add_pmu(device, svd_name, address, dim=1, dim_increment=0):
     properties = {
