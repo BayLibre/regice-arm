@@ -17,7 +17,7 @@ xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd">
       <registers>
         <register>
           <dim>32</dim>
-          <dimIncrement>4</dimIncrement>
+          <dimIncrement>8</dimIncrement>
           <name>PMXEVCNTR%s</name>
           <addressOffset>0x0</addressOffset>
           <fields>
@@ -42,7 +42,7 @@ xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd">
         </register>
         <register>
           <dim>32</dim>
-          <dimIncrement>4</dimIncrement>
+          <dimIncrement>8</dimIncrement>
           <name>PMXEVTYPER%s</name>
           <addressOffset>0x400</addressOffset>
           <fields>
