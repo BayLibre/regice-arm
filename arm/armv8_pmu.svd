@@ -16,7 +16,7 @@ xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd">
       </addressBlock>
       <registers>
         <register>
-          <dim>32</dim>
+          <dim>31</dim>
           <dimIncrement>8</dimIncrement>
           <name>PMXEVCNTR%s</name>
           <addressOffset>0x0</addressOffset>
@@ -31,7 +31,7 @@ xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd">
         <register>
           <name>PMCCNTR</name>
           <addressOffset>0xF8</addressOffset>
-          <size>0x20</size>
+          <size>0x40</size>
           <fields>
             <field>
               <name>CCNT</name>
@@ -41,8 +41,8 @@ xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd">
           </fields>
         </register>
         <register>
-          <dim>32</dim>
-          <dimIncrement>8</dimIncrement>
+          <dim>31</dim>
+          <dimIncrement>4</dimIncrement>
           <name>PMXEVTYPER%s</name>
           <addressOffset>0x400</addressOffset>
           <fields>
@@ -277,14 +277,8 @@ xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd">
               <bitWidth>8</bitWidth>
             </field>
             <field>
-              <name>IDCODE</name>
-              <bitOffset>16</bitOffset>
-              <bitWidth>8</bitWidth>
-            </field>
-            <field>
-              <name>N</name>
-              <bitOffset>11</bitOffset>
-              <bitWidth>5</bitWidth>
+              <name>LC</name>
+              <bitOffset>6</bitOffset>
             </field>
             <field>
               <name>DP</name>
