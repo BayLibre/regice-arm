@@ -52,6 +52,8 @@ class ARMCounter(PMUCounter):
         return self.pmu.peripheral.PMCNTENSET & (1 << self.cnt_id)
 
     def _set_event(self, event_id):
+        if event_id is None:
+            return True
         pmevtyper = getattr(self.pmu.peripheral, "PMXEVTYPER{}".format(self.cnt_id))
         pmevtyper.write(event_id)
         return True
@@ -173,7 +175,7 @@ class ARMPerfEvent(VendorEvent):
         self.cntr = self.pmu.enable_event(self.event_id)
 
     def _disable(self):
-        self.cntr = self.pmu.disable_event(self.cntr)
+        self.pmu.disable_event(self.cntr)
 
     def get_value(self):
         cntr = self.cntr.read_diff()
